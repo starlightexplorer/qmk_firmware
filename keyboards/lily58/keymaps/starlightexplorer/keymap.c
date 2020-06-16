@@ -23,9 +23,9 @@ extern uint8_t is_master;
 #define _SYMLL 5
 
 enum custom_keycodes {
-    LYR_SFT = SAFE_RANGE,
-    SYML = SAFE_RANGE,
-    KBL = SAFE_RANGE,
+    LYR_SFT,
+    SYML,
+    KBL,
 };
 
 const keypos_t hand_swap_config[MATRIX_ROWS][MATRIX_COLS] = {
@@ -33,7 +33,7 @@ const keypos_t hand_swap_config[MATRIX_ROWS][MATRIX_COLS] = {
     {{5,3},  {4,3},  {3,3},  {2,3},  {1,3},  {0,3}},    {{5,2},  {4,2},  {3,2},  {2,2},  {1,2},  {0,2}},
     {{5,5},  {4,5},  {3,5},  {2,5},  {1,5},  {0,5}},    {{5,4},  {4,4},  {3,4},  {2,4},  {1,4},  {0,4}},
     {{5,7},  {4,7},  {3,7},  {2,7},  {1,7},  {0,7}},    {{5,6},  {4,6},  {3,6},  {2,6},  {1,6},  {0,6}},
-    {{5,9},  {4,9},  {3,9},  {2,9},  {1,9},  {0,9}},    {{5,8},  {4,8},  {3,8},  {2,8},  {1,8},  {0,8}},    
+    {{5,9},  {4,9},  {3,9},  {2,9},  {1,9},  {0,9}},    {{5,8},  {4,8},  {3,8},  {2,8},  {1,8},  {0,8}},
 };
 
 
@@ -235,16 +235,16 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   }
 
     
-//    switch (keycode) {
-//        case LYR_SFT:
-//            return false;
-//            break;
-//        case SYML:
-//            return false;
-//            break;
-//        case KBL:
-//            return false;
-//            break;
-//    }
+    switch (keycode) {
+        case LYR_SFT:
+            return false;
+            break;
+        case SYML:
+            return false;
+            break;
+        case KBL:
+            return false;
+            break;
+    }
   return true;
 }
