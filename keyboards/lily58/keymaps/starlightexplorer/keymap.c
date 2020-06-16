@@ -28,6 +28,14 @@ enum custom_keycodes {
     KBL = SAFE_RANGE,
 };
 
+const keypos_t hand_swap_config[MATRIX_ROWS][MATRIX_COLS] = {
+    {{5,1},  {4,1},  {3,1},  {2,1},  {1,1},  {0,1}},    {{5,0},  {4,0},  {3,0},  {2,0},  {1,0},  {0,0}},
+    {{5,3},  {4,3},  {3,3},  {2,3},  {1,3},  {0,3}},    {{5,2},  {4,2},  {3,2},  {2,2},  {1,2},  {0,2}},
+    {{5,5},  {4,5},  {3,5},  {2,5},  {1,5},  {0,5}},    {{5,4},  {4,4},  {3,4},  {2,4},  {1,4},  {0,4}},
+    {{5,7},  {4,7},  {3,7},  {2,7},  {1,7},  {0,7}},    {{5,6},  {4,6},  {3,6},  {2,6},  {1,6},  {0,6}},
+    {{5,9},  {4,9},  {3,9},  {2,9},  {1,9},  {0,9}},    {{5,8},  {4,8},  {3,8},  {2,8},  {1,8},  {0,8}},    
+};
+
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
@@ -50,7 +58,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   KC_ESC,            KC_1,    KC_2,    KC_3,    KC_4,    KC_5,                     KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    KC_BSPC, \
   KC_TAB,            KC_QUOT, KC_COMM, KC_DOT,  KC_P,    KC_Y,                     KC_F,    KC_G,    KC_C,    KC_R,    KC_L,    KC_SLSH, \
   KC_CAPS,           KC_A,    KC_O,    KC_E,    KC_U,    KC_I,                     KC_D,    KC_H,    KC_T,    KC_N,    KC_S,    KC_MINS, \
-  KC_LSFT_T(LYR_SFT),KC_SCLN, KC_Q,    KC_J,    KC_K,    KC_X, KC_LBRC,  KC_RBRC,  KC_B,    KC_M,    KC_W,    KC_V,    KC_Z,    KC_RSFT, \
+  LSFT_T(LYR_SFT),   KC_SCLN, KC_Q,    KC_J,    KC_K,    KC_X, KC_LBRC,  KC_RBRC,  KC_B,    KC_M,    KC_W,    KC_V,    KC_Z,    KC_RSFT, \
                               KC_LCMD, KC_LOPT,   SYML,    KC_ENT,            KC_SPC,      KBL,      KC_LCTL, KC_RCMD \
 ),
 /* CONTROL
@@ -115,7 +123,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  _______, KC_1,    KC_2,    KC_3,    KC_4,    KC_5,                     KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    _______, \
  _______, KC_QUOT, KC_COMM, KC_DOT,  KC_P,    KC_Y,                     KC_F,    KC_G,    KC_C,    KC_R,    KC_L,    _______, \
  _______, KC_A,    KC_O,    KC_E,    KC_U,    KC_I,                     KC_D,    KC_H,    KC_T,    KC_N,    KC_S,    _______, \
- _______, KC_SCLN, KC_Q,    KC_J,    KC_K,    KC_X,  SH_OS,     SH_OS,  KC_B,    KC_M,    KC_W,    KC_V,    KC_Z,    KC_RSFT_T(LYR_SFT), \
+ _______, KC_SCLN, KC_Q,    KC_J,    KC_K,    KC_X,  SH_OS,     SH_OS,  KC_B,    KC_M,    KC_W,    KC_V,    KC_Z,    RSFT_T(LYR_SFT), \
                    _______, _______,   SYML,    _______,           _______,     SYML,     KC_LOPT, _______ \
 ),
 /* KEYBOARD LOCK - Mutually Exclusive with 3: SWAP
@@ -226,41 +234,17 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     // set_timelog();
   }
 
-  switch (keycode) {
-    case QWERTY:
-      if (record->event.pressed) {
-        set_single_persistent_default_layer(_QWERTY);
-      }
-      return false;
-      break;
-    case LOWER:
-      if (record->event.pressed) {
-        layer_on(_LOWER);
-        update_tri_layer_RGB(_LOWER, _RAISE, _ADJUST);
-      } else {
-        layer_off(_LOWER);
-        update_tri_layer_RGB(_LOWER, _RAISE, _ADJUST);
-      }
-      return false;
-      break;
-    case RAISE:
-      if (record->event.pressed) {
-        layer_on(_RAISE);
-        update_tri_layer_RGB(_LOWER, _RAISE, _ADJUST);
-      } else {
-        layer_off(_RAISE);
-        update_tri_layer_RGB(_LOWER, _RAISE, _ADJUST);
-      }
-      return false;
-      break;
-    case ADJUST:
-        if (record->event.pressed) {
-          layer_on(_ADJUST);
-        } else {
-          layer_off(_ADJUST);
-        }
-        return false;
-        break;
-  }
+    
+//    switch (keycode) {
+//        case LYR_SFT:
+//            return false;
+//            break;
+//        case SYML:
+//            return false;
+//            break;
+//        case KBL:
+//            return false;
+//            break;
+//    }
   return true;
 }
