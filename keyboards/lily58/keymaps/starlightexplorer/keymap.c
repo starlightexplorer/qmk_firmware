@@ -24,8 +24,6 @@ extern uint8_t is_master;
 
 enum custom_keycodes {
     LYR_SFT,
-    SYML,
-    KBL,
 };
 
 const keypos_t hand_swap_config[MATRIX_ROWS][MATRIX_COLS] = {
@@ -59,7 +57,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   KC_TAB,            KC_QUOT, KC_COMM, KC_DOT,  KC_P,    KC_Y,                     KC_F,    KC_G,    KC_C,    KC_R,    KC_L,    KC_SLSH, \
   KC_CAPS,           KC_A,    KC_O,    KC_E,    KC_U,    KC_I,                     KC_D,    KC_H,    KC_T,    KC_N,    KC_S,    KC_MINS, \
   LSFT_T(LYR_SFT),   KC_SCLN, KC_Q,    KC_J,    KC_K,    KC_X, KC_LBRC,  KC_RBRC,  KC_B,    KC_M,    KC_W,    KC_V,    KC_Z,    KC_RSFT, \
-                              KC_LCMD, KC_LOPT,   SYML,    KC_ENT,            KC_SPC,      KBL,      KC_LCTL, KC_RCMD \
+                              KC_LCMD, KC_LOPT,   TT(5),    KC_ENT,            KC_SPC,    TT(4),     KC_LCTL, KC_RCMD \
 ),
 /* CONTROL
  * ,-----------------------------------------.                    ,-----------------------------------------.
@@ -124,7 +122,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  _______, KC_QUOT, KC_COMM, KC_DOT,  KC_P,    KC_Y,                     KC_F,    KC_G,    KC_C,    KC_R,    KC_L,    _______, \
  _______, KC_A,    KC_O,    KC_E,    KC_U,    KC_I,                     KC_D,    KC_H,    KC_T,    KC_N,    KC_S,    _______, \
  _______, KC_SCLN, KC_Q,    KC_J,    KC_K,    KC_X,  SH_OS,     SH_OS,  KC_B,    KC_M,    KC_W,    KC_V,    KC_Z,    RSFT_T(LYR_SFT), \
-                   _______, _______,   SYML,    _______,           _______,     SYML,     KC_LOPT, _______ \
+                   _______, _______,   TT(5),    _______,           _______,     TT(5),     KC_LOPT, _______ \
 ),
 /* KEYBOARD LOCK - Mutually Exclusive with 3: SWAP
  * ,-----------------------------------------.                    ,-----------------------------------------.
@@ -237,12 +235,22 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     
     switch (keycode) {
         case LYR_SFT:
-            return false;
-            break;
-        case SYML:
-            return false;
-            break;
-        case KBL:
+            if (layer_state_is(_SWAP)) {
+                layer_on(_DVORAK);
+                layer_off(_SWAP);
+                layer_off(_LIVE);
+                layer_off(_CONTROL);
+            }
+            else if (layer_state_is(_LIVE)) {
+                layer_on(_SWAP);
+            }
+            else if (layer_state_is(_CONTROL)) {
+                layer_on(_LIVE);
+            }
+            else if (layer_state_is(_DVORAK)) {
+                layer_on(_CONTROL);
+            }
+            layer_off(_KBLL);
             return false;
             break;
     }
