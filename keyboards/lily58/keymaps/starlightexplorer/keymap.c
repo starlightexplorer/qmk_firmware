@@ -224,6 +224,7 @@ void oled_task_user(void) {
 }
 #endif // OLED_DRIVER_ENABLE
 
+
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   if (record->event.pressed) {
 #ifdef OLED_DRIVER_ENABLE
@@ -231,6 +232,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 #endif
     // set_timelog();
   }
+
 
     
     switch (keycode) {
